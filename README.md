@@ -234,7 +234,6 @@ spec:
           image: <ECR_REPOSITORY_URL>:1.0.0
           ports:
             - containerPort: 8080
-          # + readinessProbe on / port 8080; spec.strategy.rollingUpdate maxSurge 1, maxUnavailable 0
 ```
 
 ### `.github/workflows/pr.yml`
@@ -258,7 +257,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       - uses: hashicorp/setup-terraform@v4
       - run: terraform fmt -check -recursive
-      # + init, validate, plan, all with -input=false where it applies
+      # + terraform init, terraform validate, terraform plan
 ```
 
 ### `.github/workflows/main.yml`
@@ -268,11 +267,6 @@ on:
   push:
     branches: [main]
 
-concurrency:
-  group: apply
-  cancel-in-progress: false
-
 # same job as pr.yml, then:
-#   terraform plan -input=false -out=tfplan
-#   terraform apply -input=false tfplan
+#   terraform apply -auto-approve
 ```
