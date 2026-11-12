@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "service_trust" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:AtillaSzikora@*/csk-w10-service-code@*:ref:refs/heads/main"]
+      values   = ["repo:AtillaSzikora/csk-w10-service-code:ref:refs/heads/main"]
     }
   }
 }
