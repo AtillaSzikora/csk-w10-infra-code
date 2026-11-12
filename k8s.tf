@@ -16,12 +16,11 @@ resource "kubernetes_namespace_v1" "hello" {
   depends_on = [aws_eks_node_group.default]
 }
 
+/*
 # Step 4, once the cluster exists:
 resource "kubernetes_manifest" "deployment" {
   manifest = yamldecode(file("${path.module}/k8s/deployment.yaml"))
 
-  depends_on = [
-    kubernetes_namespace_v1.hello,
-    aws_eks_node_group.default
-  ]
+  depends_on = [ kubernetes_namespace_v1.hello ]
 }
+*/
