@@ -1,15 +1,22 @@
-# Step 5. Runs on every push to main: do it.
-name: Apply
-
 on:
   push:
     branches: [main]
 
 jobs:
-  apply:
+  plan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - name: TODO
-        run: |
-          echo "TODO: log in to AWS (OIDC)"
-          echo "TODO: terraform fmt -check, init, validate, plan, apply without asking"
+      - uses: actions/checkout@v7
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ vars.AWS_PLAN_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - uses: hashicorp/setup-terraform@v4
+      - run: terraform fmt -check -recursive
+      - run: terraform init -input=false
+      - run: terraform validate
+      - run: terraform plan -out=tfplan -input=false
+      - run: terraform apply -auto-approve

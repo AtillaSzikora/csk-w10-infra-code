@@ -1,5 +1,6 @@
 terraform {
-  required_version = ">= 1.10"
+  required_version = ">= 1.15"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -15,11 +16,11 @@ terraform {
   backend "s3" {
     bucket       = "atilla-csk-w10-tfstate"
     key          = "infra-code/terraform.tfstate"
-    region       = "us-west-2"
+    region       = "eu-central-1"
     use_lockfile = true
   }
 }
 
 provider "aws" {
-  region = "us-west-2"
+  region = "eu-central-1"
 }
