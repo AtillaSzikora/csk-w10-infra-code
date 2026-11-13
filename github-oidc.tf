@@ -16,9 +16,9 @@ data "aws_iam_policy_document" "service_trust" {
       values   = ["sts.amazonaws.com"]
     }
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:AtillaSzikora/csk-w10-service-code:ref:refs/heads/main"]
+      values   = ["repo:AtillaSzikora@15244704/csk-w10-service-code@1452945143:ref:refs/heads/main"]
     }
   }
 }
@@ -35,13 +35,16 @@ data "aws_iam_policy_document" "ecr_push" {
   }
 
   statement {
+    effect    = "Allow"
     actions = [
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:CompleteLayerUpload",
-      "ecr:InitiateLayerUpload",
-      "ecr:PutImage",
-      "ecr:UploadLayerPart"
-    ]
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "ecr:PutImage",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload"
+            ]
     resources = [aws_ecr_repository.hello.arn]
   }
 }
@@ -67,7 +70,7 @@ data "aws_iam_policy_document" "infra_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:atilla/infra-code:ref:refs/heads/main"]
+      values   = ["repo:AtillaSzikora@15244704/csk-w10-service-code@1452945143:ref:refs/heads/main"]
     }
   }
 }
@@ -103,7 +106,7 @@ data "aws_iam_policy_document" "infra_plan_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:atilla/infra-code:pull_request"]
+      values   = ["repo:AtillaSzikora@15244704/csk-w10-service-code@1452945143:ref:refs/heads/main"]
     }
   }
 }
